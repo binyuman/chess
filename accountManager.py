@@ -3,7 +3,6 @@ import sqlite3   #enable control of an sqlite database
 import csv       #facilitates CSV I/O
 
 
-
 ''' 
 1. authenticate: authenticate credentials
 2. register: make sure username not used
@@ -16,6 +15,9 @@ p = """INSERT INTO users VALUES("%s","%s",%d)""" %("firstEnrty","hashedpass",0)
 c.execute(p)
 '''
 #authenticate user returns true if authentication worked
+
+#FILL IN FOR CORRECT DETAILS
+passwordDictionary = {1 : "", 2 : "", 3 : "",4 : ""} #AND SO FORTH
 
 def authenticate(user,password):
 
