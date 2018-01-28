@@ -8,12 +8,6 @@ import csv       #facilitates CSV I/O
 2. register: make sure username not used
 '''
 
-from hashlib import sha1
-
-'''testing purposes
-p = """INSERT INTO users VALUES("%s","%s",%d)""" %("firstEnrty","hashedpass",0)
-c.execute(p)
-'''
 #authenticate user returns true if authentication worked
 
 #FILL IN FOR CORRECT DETAILS
@@ -21,14 +15,15 @@ passwordDictionary = {1 : "", 2 : "", 3 : "",4 : ""} #AND SO FORTH
 
 def authenticate(user,password):
 
-    f="database.db"
+    f="sqlite3 database.db"
     db = sqlite3.connect(f) #open if f exists, otherwise create
     c = db.cursor()  #facilitate db ops  <-- I don't really know what that means but ok
     isLogin = False #Default to false; login info correct?
     loginStatusMessage = "" #what's wrong
     messageNumber = 0 #represents what kind of error it is
-    passHash = sha1(password).hexdigest()#hash it
-
+    makeTable = 'IF NOT EXISTS CREATE TABLE users(username text, password text)'
+    c.execute(makeTable)
+    db.commit()
     checkUser = 'SELECT * FROM users WHERE username=="%s";' % (user)  #checks if the user is in the database
     c.execute(checkUser)
     l = c.fetchone() #listifies the results
@@ -51,9 +46,10 @@ def authenticate(user,password):
 
 #returns true if register worked
 def register(user,password,pwd):    #user-username, password-password, pwd-retype
-    f="database.db"
+    f="sqlite3 database.db"
     db = sqlite3.connect(f) #open if f exists, otherwise create
     c = db.cursor()  #facilitate db ops  <-- I don't really know what that means but ok
+    makeTable = 'IF NOT EXISTS CREATE TABLE users(username text, password text)'
     isRegister = False #defualt not work
     registerStatus = ""
     messageNumber = 0 #for message
@@ -76,8 +72,7 @@ def register(user,password,pwd):    #user-username, password-password, pwd-retyp
         messageNumber = 1
         registerStatus = "passwords do not match"
     elif (password == pwd):
-        passHash = sha1(password).hexdigest()#hash it
-        insertUser = 'INSERT INTO users VALUES ("%s","%s");' % (user,passHash) #sqlite code for inserting new user
+        insertUser = 'INSERT INTO users VALUES ("%s","%s");' % (user,password) #sqlite code for inserting new user
 
         c.execute(insertUser)
 
@@ -89,4 +84,4 @@ def register(user,password,pwd):    #user-username, password-password, pwd-retyp
     db.close()  #close database
     return messageNumber
 
-#register("bayle","T@rsi3rs","T@rsi3rs")
+register("bayle","bss","bss")

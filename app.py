@@ -39,8 +39,6 @@ def getHandler() :
 
 
 
-
-
 @app.route("/authOrCreate", methods=["POST"])
 def authOrCreate():
     formDict = request.form
