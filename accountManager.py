@@ -3,27 +3,33 @@ import sqlite3   #enable control of an sqlite database
 import csv       #facilitates CSV I/O
 
 
+
 ''' 
 1. authenticate: authenticate credentials
 2. register: make sure username not used
 '''
 
-#authenticate user returns true if authentication worked
+from hashlib import sha1
 
-#FILL IN FOR CORRECT DETAILS
-passwordDictionary = {1 : "", 2 : "", 3 : "",4 : ""} #AND SO FORTH
+'''testing purposes
+p = """INSERT INTO users VALUES("%s","%s",%d)""" %("firstEnrty","hashedpass",0)
+c.execute(p)
+'''
+
+f="database.db"
+db = sqlite3.connect(f) #open if f exists, otherwise create
+c = db.cursor()  #facilitate db ops  <-- I don't really know what that means but ok
+#create = 'CREATE TABLE users(username text, password text)'
+#c.execute(create)
+
+
+#authenticate user returns true if authentication worked
 
 def authenticate(user,password):
 
-    f="sqlite3 database.db"
-    db = sqlite3.connect(f) #open if f exists, otherwise create
-    c = db.cursor()  #facilitate db ops  <-- I don't really know what that means but ok
     isLogin = False #Default to false; login info correct?
     loginStatusMessage = "" #what's wrong
     messageNumber = 0 #represents what kind of error it is
-    makeTable = 'IF NOT EXISTS CREATE TABLE users(username text, password text)'
-    c.execute(makeTable)
-    db.commit()
     checkUser = 'SELECT * FROM users WHERE username=="%s";' % (user)  #checks if the user is in the database
     c.execute(checkUser)
     l = c.fetchone() #listifies the results
@@ -31,7 +37,7 @@ def authenticate(user,password):
         isLogin = False
         messageNumber = 0
         loginStatusMessage = "user does not exist"
-    elif l[1] == passHash:
+    elif l[1] == password:
         isLogin = True
         messageNumber = 1
         loginStatusMessage = "login info correct"
@@ -46,10 +52,6 @@ def authenticate(user,password):
 
 #returns true if register worked
 def register(user,password,pwd):    #user-username, password-password, pwd-retype
-    f="sqlite3 database.db"
-    db = sqlite3.connect(f) #open if f exists, otherwise create
-    c = db.cursor()  #facilitate db ops  <-- I don't really know what that means but ok
-    makeTable = 'IF NOT EXISTS CREATE TABLE users(username text, password text)'
     isRegister = False #defualt not work
     registerStatus = ""
     messageNumber = 0 #for message
@@ -72,7 +74,7 @@ def register(user,password,pwd):    #user-username, password-password, pwd-retyp
         messageNumber = 1
         registerStatus = "passwords do not match"
     elif (password == pwd):
-        insertUser = 'INSERT INTO users VALUES ("%s","%s");' % (user,password) #sqlite code for inserting new user
+        insertUser = 'INSERT INTO users VALUES ("%s","%s");' % (user,pwd) #sqlite code for inserting new user
 
         c.execute(insertUser)
 
@@ -83,5 +85,11 @@ def register(user,password,pwd):    #user-username, password-password, pwd-retyp
     db.commit() #save changes
     db.close()  #close database
     return messageNumber
-
 register("bayle","bss","bss")
+f="database.db"
+db = sqlite3.connect(f) #open if f exists, otherwise create
+c = db.cursor()  #facilitate db ops  <-- I don't really know what that means but
+test = 'SELECT * FROM users WHERE username=="bayle";' 
+c.execute(test)
+l = c.fetchone() #listifies the results
+print(l)

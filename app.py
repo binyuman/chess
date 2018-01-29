@@ -1,14 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import accountManager
-from accountManager import passwordDictionary
 
 app = Flask(__name__)
 
-f = open( "utils/key", 'r' )
-
-
-app.secret_key = f.read();
-f.close
 
 @app.route("/")
 def loginOrRegister():
@@ -18,7 +12,7 @@ def loginOrRegister():
         return render_template("notLoggedIn.html")
 
 
-
+"""
 @app.route("/game", method = "GET")
 def getHandler() :
 
@@ -30,13 +24,13 @@ def getHandler() :
         pass
         #send to next level
 
-    else :
+     else:
 
         pass
         #send try again alert
 
      #NOW MUST CHECK AGAINST DICTIONARY
-
+"""
 
 
 @app.route("/authOrCreate", methods=["POST"])
