@@ -1,0 +1,40 @@
+body {
+	
+	background-color : powderblue;
+}
+
+.navbar-header {
+
+	font-family : futura;
+	font-size : 150%;
+
+}
+
+.aboutstyle {
+
+	font-family : futura;
+	font-size : 150%;
+	position: relative;
+	top: 10px;
+
+}
+
+.subbutton {
+
+
+	position: relative;
+
+	top: 25px;
+
+	right: 50px;
+
+}
+
+.col-xs-5 {
+
+	position: relative;
+
+	left: 300px;
+
+}
+
