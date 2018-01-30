@@ -9,7 +9,6 @@ import csv       #facilitates CSV I/O
 2. register: make sure username not used
 '''
 
-from hashlib import sha1
 
 '''testing purposes
 p = """INSERT INTO users VALUES("%s","%s",%d)""" %("firstEnrty","hashedpass",0)
