@@ -7,9 +7,9 @@ app = Flask(__name__)
 @app.route("/")
 def loginOrRegister():
     if 'username' in session:
-        return redirect("/map")
+        return redirect("/homePage") #put into page that has riddles
     else:
-        return render_template("notLoggedIn.html")
+        return render_template("mainTemplate.html")
 
 
 """
@@ -67,7 +67,7 @@ def authOrCreate():
             registerStatus = "password too short"
         elif statusNum == 4:
             registerStatus = "username left blank"
-        return render_template("notLoggedIn.html",status = registerStatus) #status is the login/creation messate
+        return render_template("mainTemplate.html",status = registerStatus) #status is the login/creation messate
     else:
         return redirect(url_for("loginOrRegister"))
 
@@ -78,3 +78,9 @@ def logout():
     if "username" in session:
         session.pop('username')
     return redirect(url_for('loginOrRegister'))
+
+'''\this is how you get username:
+session['username']
+
+bc of the session lib
+'''
